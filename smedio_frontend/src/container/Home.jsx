@@ -86,7 +86,7 @@ const Home = () => {
           {/* :userId is dynamic. And opens the UserProfile component */}
           <Route path='/user-profile/:userId' element={<UserProfile />} />
           {/* /* means render anything else. WIP for more on that. */}
-          {/* {user && user} provide the user only if the user exists. */}
+          {/* {user && user} provide the user only if the user exists. user is a prop for Pins*/}
           <Route path='/*' element={<Pins user={user && user} />} />
         </Routes>
       </div>
