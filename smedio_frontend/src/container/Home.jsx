@@ -14,7 +14,7 @@ import logo from '../assets/logo.png';
 
 const Home = () => {
 
-  //Set the sidebar to false.
+  //Set the sidebar to false so that it's not seen. State that opens and closes the side bar.
   const [toggleSidebar, setToggleSidebar] = useState(false)
 
   //Set the starting user as null, so that it can be changed once logged in and use the user data.
@@ -65,7 +65,7 @@ const Home = () => {
           </Link>
         </div>
 
-        {/* Check if sidebar is toggled. */}
+        {/* Check if sidebar is toggled. So if setToggleSidebar state is (true) */}
         {toggleSidebar && (
           //^if it is, anime-slide-in.
           <div className='fixed w-4/5 bg-white h-screen overflow-y-auto shadow-md z-10 animate-slide-in'>
