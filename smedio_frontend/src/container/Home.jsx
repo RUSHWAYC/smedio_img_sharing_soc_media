@@ -8,6 +8,7 @@ import Pins from './Pins';
 import { client } from '../client';
 import { userQuery } from '../utils/data';
 import logo from '../assets/logo.png';
+import { fetchUser } from '../utils/fetchUser';
 
 
 
@@ -22,8 +23,9 @@ const Home = () => {
 
   const scrollRef = useRef(null);
   
-  //Get the user from localStorage in ../components/Login.jsx, if there is none clear local storage in case user token expired.
-  const userInfo = localStorage.getItem('user') !== 'underfined' ? JSON.parse(localStorage.getItem('user')) : localStorage.clear();
+  //ORIGINALLY: Get the user from localStorage in ../components/Login.jsx, if there is none clear local storage in case user token expired.
+  //NOW: get the user from localStorage in ../utils/fetchUser.js.
+  const userInfo = fetchUser();
 
   //Get user data and match it with googleId from Login.jsx
   useEffect(() => {
