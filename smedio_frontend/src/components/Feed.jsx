@@ -9,7 +9,7 @@ import Spinner from './Spinner';
 
 const Feed = () => {
 
-  {/* Set the state as not loading. */}
+  //Set the state as not loading.
   const [loading, setLoading] = useState(false);
 
   const [pins, setPins] = useState(null);
@@ -36,8 +36,10 @@ const Feed = () => {
     }
   }, [categoryId])
 
-  {/* If loading, display the message from <Spinner /> */}
+  //If loading, display the message from <Spinner />
   if(loading) return <Spinner message='We are adding new ideas to your feed!'/>
+
+  if(!pins?.length) return <h2>No pins available</h2>
 
   return (
     <div>

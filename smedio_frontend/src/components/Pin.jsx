@@ -22,7 +22,7 @@ const Pin = ( {pin: {postedBy, image, _id, destination, save} }) => {
     //.length provides 0 if user not on the filter list, 1 if they are.
     //Double !! before the filter will return the code as true or false.
     //Done soe because alreadySaved sounds like a true or false question.
-    let alreadySaved = !!(save?.filter((item) => item.postedBy._id === user.googleId))?.length;
+    let alreadySaved = !!(save?.filter((item) => item?.postedBy?._id === user?.googleId))?.length;
 
     const savePin = (id) => {
         if(!alreadySaved) {
@@ -35,10 +35,10 @@ const Pin = ( {pin: {postedBy, image, _id, destination, save} }) => {
                 //Insert a document.
                 .insert('after', 'save[-1]', [{
                     _key: uuidv4(),
-                    userId: user.googleId,
+                    userId: user?.googleId,
                     postedBy: {
                         _type: postedBy,
-                        _ref: user.googleId
+                        _ref: user?.googleId
                     }
                 }])
                 //Commit the changes.
@@ -119,7 +119,7 @@ const Pin = ( {pin: {postedBy, image, _id, destination, save} }) => {
                                 </a>
                             )}
                             {/* Delete pin icon. */}
-                            {postedBy?._id === user.googleId && (
+                            {postedBy?._id === user?.googleId && (
                                 <button
                                     type='button'
                                     onClick={(e) => {

@@ -10,6 +10,9 @@ import Spinner from './Spinner'
 
 const randomImage = 'https://source.unsplash.com/1600x900/?nature,photography,technology'
 
+const activeBtnStyles = 'bg-red-500 text-white font-bold p-2 rounded-full w-20 outline-none'
+const notActiveBtnStyles = 'bg-primary mr-4 text-black font-bold p-2 rounded-full w-20 outline-none'
+
 const UserProfile = () => {
 
   const [user, setUser] = useState(null)
@@ -32,7 +35,29 @@ const UserProfile = () => {
       //Get the first user from the array only.
         setUser(data[0])
      })
-  }, [userId])
+  }, [text, userId])
+
+  //setPins to show either created or saved depending on the button press
+  useEffect(() => {
+    if(text === 'Created') {
+      const createdPinsQuery = userCreatedPinsQuery(userId);
+      client.fetch(createdPinsQuery)
+        .then((data) => {
+          setPins(data)
+        })
+    } else {
+      const savedPins = userSavedPinsQuery(userId);
+      client.fetch(savedPins)
+        .then((data) => {
+          setPins(data)
+        })
+    }
+  }, [text, userId])
+
+  const logout = () => {
+    localStorage.clear();
+    navigate('/login')
+  }
   
   //Loading if there is no user.
   if(!user) {
@@ -57,7 +82,64 @@ const UserProfile = () => {
             <h1 className='font-bold text-3xl text-center mt-3'>
               {user.userName}
             </h1>
+            <div className='absolute top-0 z-1 right-0 p-2'>
+              {/* If User ID of logged in matches the account user ID logout is available. */}
+              {userId === user._id && (
+                <GoogleLogout
+                  clientId={process.env.REACT_APP_GOOGLE_API_TOKEN}
+                  render={(renderProps) => (
+                    <button
+                      type="button"
+                      className="bg-white p-2 rounded-full cursor-pointer outline-none shadow-md"
+                      onClick={renderProps.onClick}
+                      disabled={renderProps.disabled}
+                    >
+                      <AiOutlineLogout color='red' fontSize={21} />
+                    </button>
+                  )}
+                  onLogoutSuccess={logout}
+                  cookiePolicy="single_host_origin"
+                />
+              )}
+            </div>
           </div>
+          <div className='text-center mb-7'>
+              <button
+                type='button'
+                onClick={(e) => {
+                  //Sets text useState to the contents/text of the <button>.
+                  setText(e.target.textContent)
+                  //setActiveBtn was set by useState to 'created' by default.
+                  //As such, it will be highlighted by activeBtnStyles.
+                  //Once the second button is created, setActiveBtn becomes 'saved"
+                  //and it reverses the button colors.
+                  setActiveBtn('created')
+                }}
+                className={`${activeBtn === 'created' ? activeBtnStyles : notActiveBtnStyles}`}
+              >
+                Created
+              </button>
+              <button
+                type='button'
+                onClick={(e) => {
+                  setText(e.target.textContent)
+                  setActiveBtn('saved')
+                }}
+                className={`${activeBtn === 'saved' ? activeBtnStyles : notActiveBtnStyles}`}
+              >
+                Saved
+              </button>
+          </div>
+          {/* Show users created or saved pins depending on the button selection. */}
+          {pins?.length ? (
+            <div className='px-2'>
+                  <MasonryLayout pins={pins} />
+            </div>
+          ) : (
+            <div className='flex justify-center font-bold items-center w-full text-xl mt-2'>
+              No pins found!
+            </div>
+          )}
         </div>
       </div>
     </div>
