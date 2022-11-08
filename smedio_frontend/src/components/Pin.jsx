@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { MdDownloadForOffline } from 'react-icons/md';
-import { AitTwotoneDelete, AiTwotoneDelete } from 'react-icons/ai';
+import { AiTwotoneDelete } from 'react-icons/ai';
 import { BsFillArrowUpRightCircleFill } from 'react-icons/bs';
 import { fetchUser } from '../utils/fetchUser';
 
@@ -22,7 +22,7 @@ const Pin = ( {pin: {postedBy, image, _id, destination, save} }) => {
     //.length provides 0 if user not on the filter list, 1 if they are.
     //Double !! before the filter will return the code as true or false.
     //Done soe because alreadySaved sounds like a true or false question.
-    const alreadySaved = !!(save?.filter((item) => item.postedBy._id === user.googleId))?.length;
+    let alreadySaved = !!(save?.filter((item) => item.postedBy._id === user.googleId))?.length;
 
     const savePin = (id) => {
         if(!alreadySaved) {
@@ -115,7 +115,7 @@ const Pin = ( {pin: {postedBy, image, _id, destination, save} }) => {
                                     className='bg-white flex items-center gap-1 text-black font-bold p-2 pl-4 pr-4 rounded-full opacity-70 hover:100 hover:shadow-md'
                                 >
                                     <BsFillArrowUpRightCircleFill />
-                                    {destination.length > 20 ? destination.slice(12, 20) : destination.slice(8)}
+                                    {destination.length > 15 ? `${destination.slice(0, 15)}...` : destination}
                                 </a>
                             )}
                             {/* Delete pin icon. */}
