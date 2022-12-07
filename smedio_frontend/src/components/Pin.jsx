@@ -119,7 +119,7 @@ const Pin = ( {pin: {postedBy, image, _id, destination, save} }) => {
                                 </a>
                             )}
                             {/* Delete pin icon. */}
-                            {postedBy?._id === user?.googleId && (
+                            {postedBy?._id === user && (
                                 <button
                                     type='button'
                                     onClick={(e) => {

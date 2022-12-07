@@ -8,6 +8,7 @@ import Pins from './Pins';
 import { client } from '../client';
 import { userQuery } from '../utils/data';
 import logo from '../assets/logo.png';
+import { fetchUser } from '../utils/fetchUser';
 
 
 
@@ -24,18 +25,18 @@ const Home = () => {
   
   //ORIGINALLY: Get the user from localStorage in ../components/Login.jsx, if there is none clear local storage in case user token expired.
   //NOW: get the user from localStorage in ../utils/fetchUser.js.
-
-  //Get user data from local storage when one logged using Google.
-  const userInfo = localStorage.getItem('user') !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : localStorage.clear()
+  const userInfo = fetchUser();
 
   //Get user data and match it with googleId from Login.jsx
   useEffect(() => {
     const query = userQuery(userInfo?.googleId);
+    console.log(query)
     //Set the user that is logged in.
     client.fetch(query)
       .then((data) => {
         setUser(data[0]);
     })
+    console.log(user)
   }, [])
   
   //At the start set up the scroll at the top.
@@ -64,7 +65,7 @@ const Home = () => {
           </Link>
           {/* Logged in user image. Goes to user profile once clicked. */}
           <Link to={`user-profile/${user?._id}`}>
-            <img src={user?.image} referrerpolicy="no-referrer" alt='user-pic' className='w-28' />
+            <img src={user?.image} referrerPolicy="no-referrer" alt='user-pic' className='w-28' />
           </Link>
         </div>
 

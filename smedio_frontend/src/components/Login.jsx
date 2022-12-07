@@ -13,7 +13,7 @@ const Login = () => {
   //Get and save data from Google sign in.
   const responseGoogle = (response) => {
     localStorage.setItem('user', JSON.stringify(response.profileObj))
-    const { name, googleId, imageUrl } = response.profileObj;
+    const { name, googleId, imageUrl } = response.profileObj
     //Export the data to Sanity. Connecting backend with front end.
     const doc = {
       //get the googleId for matching users in Sanity for useEffect on Home.jsx
