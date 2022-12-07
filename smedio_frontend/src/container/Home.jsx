@@ -30,13 +30,11 @@ const Home = () => {
   //Get user data and match it with googleId from Login.jsx
   useEffect(() => {
     const query = userQuery(userInfo?.googleId);
-    console.log(query)
     //Set the user that is logged in.
     client.fetch(query)
       .then((data) => {
         setUser(data[0]);
     })
-    console.log(user)
   }, [])
   
   //At the start set up the scroll at the top.

@@ -22,6 +22,7 @@ const Login = () => {
       userName: name,
       image: imageUrl
     }
+    
     //Once logged create the user if they don't exist already.
     client.createIfNotExists(doc)
       .then(() => {
